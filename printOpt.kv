@@ -1,0 +1,49 @@
+<PrintScreen>:
+    name: "printOpt"
+    id: printOpt
+    Button:
+        id: offline_btn
+        text: "Буцах"
+        font_size: 50
+        size_hint: .2, .4
+        background_normal: ''
+        background_color: rgba("#d63c3c")
+        on_press:
+            root.manager.transition.direction = 'right'
+            root.manager.current = "Offline"
+    FloatLayout:
+    Label:
+        text: 'Өнгөт эсвэл Хар'
+        color: rgba("#d63c3c")
+    Switch:
+        active: True
+        size_hint: .1, .1
+        pos_hint: {'x': .45,'y': .4}
+        on_active: root.switch_callback(self, self.active)
+    Button:
+        id: print_service
+        text: "Хэвлэх"
+        font_size: 50
+        size_hint: .2, .4
+        pos_hint: {'x': .8,'y': 0}
+        background_normal: ''
+        background_color: rgba("#a32189")
+        on_press: root.print_service()
+    Label:
+        text: "Хуудасны дугаар"
+        color: rgba("#d63c3c")
+        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+    TextInput:
+        id: pageNum_input
+        hint_text:'1'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.705}
+        size_hint: 0.3, 0.1
+        multiline: False
+        # top, bottom
+        padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+        on_text: root.pageNum()
+        on_text_validate:
+            root.value = int(self.text)
+            root.validate(0, 999)
+
+

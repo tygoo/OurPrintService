@@ -1,0 +1,43 @@
+<OfflineScreen>:
+    name: "Offline"
+    Button:
+        id: offline_btn
+        text: "Буцах"
+        font_size: 50
+        size_hint: .2, .4
+        background_normal: ''
+        background_color: rgba("#d63c3c")
+        on_press:
+            root.manager.transition.direction = 'right'
+            root.manager.current = "Main"
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'top'
+        Label:
+            font_size: 50
+            text: 'Та төхөөрөмжөө ГУРАВ дугаарын оролтонд залгана уу!'
+            color: rgba("#d63c3c")
+    FloatLayout:
+        Button:
+            id: check_device
+            text: "CHECK"
+            font_size: 50
+            size_hint: .2, .4
+            pos_hint: {'x': 0,'y': .6}
+            background_normal: ''
+            background_color: rgba("#333333")
+            on_press: root.chkDev()
+        Button:
+            id: print_options
+            text: "ТОХИРГОО"
+            font_size: 50
+            size_hint: .2, .4
+            pos_hint: {'x': .8,'y': 0}
+            background_normal: ''
+            background_color: rgba("#008000")
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = "printOpt"
+
+
+

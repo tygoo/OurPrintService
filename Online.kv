@@ -1,0 +1,93 @@
+<ButtonCalc@Button>:
+    font_size: 60
+    color: 1,1,1,1
+    size_hint: 0.2, 0.15
+
+<OnlineScreen>:
+    name: "Online"
+    TextInput:
+        id: input
+        multiline: False
+        input_filter: 'int'
+        font_size: 200
+        font_name: 'Arial'
+        size_hint: .7, .2
+        pos_hint: {'x': .05,'center_y': .9}
+        background_color: (1, 1, 1, 1)
+        foreground_color: (0,0,0,1)
+        on_text: root.chkUserNum()
+        on_text_validate:
+            root.value = int(self.text)
+            root.validate(0, 99999999)
+    AnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'top'
+        Button:
+            id: submit
+            text: "Шалгах"
+            font_size: 50
+            size_hint: .2, .4
+            background_normal: ''
+            background_color: rgba("#21bf6d")
+            on_press: root.register()
+    AnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'bottom'
+        Button:
+            id: Back_page
+            text: "Буцах"
+            font_size: 50
+            size_hint: .2, .4
+            background_normal: ''
+            background_color: rgba("#d63c3c")
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = "Main"
+                root.clr_btn()
+
+    FloatLayout:
+        ButtonCalc:
+            text: "7"
+            pos_hint: {'x': 0.05, 'y': 0.6}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "8"
+            pos_hint: {'x': 0.3, 'y': 0.6}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "9"
+            pos_hint: {'x': 0.55, 'y': 0.6}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "4"
+            pos_hint: {'x': 0.05, 'y': 0.43}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "5"
+            pos_hint: {'x': 0.3, 'y': 0.43}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "6"
+            pos_hint: {'x': 0.55, 'y': 0.43}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "1"
+            pos_hint: {'x': 0.05, 'y': 0.255}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "2"
+            pos_hint: {'x': 0.3, 'y': 0.255}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "3"
+            pos_hint: {'x': 0.55, 'y': 0.255}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "0"
+            pos_hint: {'x': 0.05, 'y': 0.08}
+            size_hint: 0.45, 0.15
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "Арилгах"
+            pos_hint: {'x': .55, 'y': .08}
+            on_press: root.delete_input()
