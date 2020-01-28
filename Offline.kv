@@ -10,20 +10,45 @@
         on_press:
             root.manager.transition.direction = 'right'
             root.manager.current = "Main"
-    AnchorLayout:
-        anchor_x: 'left'
-        anchor_y: 'top'
+            root.del1()
+    FloatLayout:
         Label:
+            id: WarningText
             font_size: 50
             text: 'Та төхөөрөмжөө ГУРАВ дугаарын оролтонд залгана уу!'
             color: rgba("#d63c3c")
-    FloatLayout:
+            pos_hint: {'x': 0,'y': 0}
+        Button:
+            id: btn1
+            font_size: 50
+            text: "YES"
+            size_hint: .2, .1
+            opacity: 0
+            pos_hint: {'x': .275,'y': .35}
+            background_normal: ''
+            background_color: rgba("#32cf70")
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = "printOpt"
+        Button:
+            id: btn2
+            font_size: 50
+            text: "NO"
+            size_hint: .2, .1
+            opacity: 0
+            pos_hint: {'x': .525,'y': .35}
+            background_normal: ''
+            background_color: rgba("#e04d4a")
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "Main"
+                root.del1()
         Button:
             id: check_device
-            text: "CHECK"
+            text: "CHECK YOUR DEVICE"
             font_size: 50
-            size_hint: .2, .4
-            pos_hint: {'x': 0,'y': .6}
+            size_hint: .4, .2
+            pos_hint: {'x': .3,'y': .7}
             background_normal: ''
             background_color: rgba("#333333")
             on_press: root.chkDev()
