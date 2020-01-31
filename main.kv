@@ -7,26 +7,47 @@ ScreenManagement:
 
 <MainScreen>:
     name:"Main"
-    GridLayout:
-        cols: 2
-        Button:
+    FloatLayout:
+        Label:
+            pos_hint: {'x': .075, 'y': 0.25}
+            canvas:
+                Color:
+                    rgba: rgba("#b2edd4")
+                RoundedRectangle:
+                    size: root.width*0.4,root.height*0.65
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
+        ImageButton:
+            source:'51e85384.png'
+            size_hint: .45, .45
+            pos_hint: {'x': .05, 'y': .4}
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = "Online"
-            text: "Цахим Горим"
-            font_size: 70
-            background_normal: ''
-            background_color: rgba('#e3b22b')
-            size_hint: .4, 1
-            pos: 100, 200
-
-        Button:
+        Label:
+            text: "ОНЛАЙН ГОРИМ"
+            pos_hint: {'x': -.225, 'y': -.15}
+            font_size: root.height*0.05
+            color: rgba("#17574a")
+    FloatLayout:
+        Label:
+            pos_hint: {'x': .525, 'y': 0.25}
+            canvas:
+                Color:
+                    rgba: rgba("#f5dfda")
+                RoundedRectangle:
+                    size: root.width*0.4,root.height*0.65
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
+        ImageButton:
+            source:'flash_icon.png'
+            pos_hint: {'x': .5, 'y': .4}
+            size_hint: .45, .45
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = "Offline"
-            text: "Энгийн Горим"
-            font_size: 70
-            background_color: (0, 0.7, 0.3, 1)
-            size_hint: .4, 1
-            pos: 500, 200
-
+        Label:
+            text: "ЭНГИЙН ГОРИМ"
+            pos_hint: {'x': .225, 'y': -.15}
+            font_size: root.height*0.05
+            color: rgba("#17574a")

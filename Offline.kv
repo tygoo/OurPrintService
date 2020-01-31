@@ -1,68 +1,117 @@
 <OfflineScreen>:
     name: "Offline"
-    Button:
-        id: offline_btn
-        text: "Буцах"
-        font_size: 50
-        size_hint: .2, .4
-        background_normal: ''
-        background_color: rgba("#d63c3c")
-        on_press:
-            root.manager.transition.direction = 'right'
-            root.manager.current = "Main"
-            root.del1()
     FloatLayout:
         Label:
-            id: WarningText
-            font_size: 50
-            text: 'Та төхөөрөмжөө ГУРАВ дугаарын оролтонд залгана уу!'
-            color: rgba("#d63c3c")
-            pos_hint: {'x': 0,'y': 0}
+            pos_hint: {'x': .02, 'y': 0.025}
+            canvas:
+                Color:
+                    rgba: rgba("#d64f66")
+                RoundedRectangle:
+                    size: root.width*0.15,root.height*0.12
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
         Button:
-            id: btn1
+            id: offline_btn
+            text: "Буцах"
             font_size: 50
-            text: "YES"
-            size_hint: .2, .1
-            opacity: 0
-            pos_hint: {'x': .275,'y': .35}
+            size_hint: .13, .13
+            pos_hint: {'x': .03, 'y': 0.025}
             background_normal: ''
-            background_color: rgba("#32cf70")
-            on_press:
-                root.manager.transition.direction = 'left'
-                root.manager.current = "printOpt"
-        Button:
-            id: btn2
-            font_size: 50
-            text: "NO"
-            size_hint: .2, .1
-            opacity: 0
-            pos_hint: {'x': .525,'y': .35}
-            background_normal: ''
-            background_color: rgba("#e04d4a")
+            background_color: 1,1,1,0
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = "Main"
                 root.del1()
+
+    FloatLayout:
+        Label:
+            id: WarningText
+            font_size: root.height*0.04
+            text: 'Та төхөөрөмжөө ГУРАВ дугаарын оролтонд залгана уу!'
+            color: rgba("#d63c3c")
+            pos_hint: {'x': 0,'y': -.15}
+        Label:
+            id: opLbl_true
+            opacity: 0
+            pos_hint: {'x': .3, 'y': 0.2}
+            canvas:
+                Color:
+                    rgba: rgba("#4fd188")
+                RoundedRectangle:
+                    size: root.width*0.175,root.height*0.1
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
         Button:
-            id: check_device
-            text: "CHECK YOUR DEVICE"
-            font_size: 50
-            size_hint: .4, .2
-            pos_hint: {'x': .3,'y': .7}
+            id: btn1
+            font_size: root.height*0.04
+            text: "ТИЙМ"
+            size_hint: .175, .1
+            opacity: 0
+            pos_hint: {'x': .3,'y': .2}
             background_normal: ''
-            background_color: rgba("#333333")
-            on_press: root.chkDev()
-        Button:
-            id: print_options
-            text: "ТОХИРГОО"
-            font_size: 50
-            size_hint: .2, .4
-            pos_hint: {'x': .8,'y': 0}
-            background_normal: ''
-            background_color: rgba("#008000")
+            background_color: 1,1,1,0
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = "printOpt"
+        Label:
+            id: opLbl_false
+            opacity: 0
+            pos_hint: {'x': .525, 'y': 0.2}
+            canvas:
+                Color:
+                    rgba: rgba("#d64f66")
+                RoundedRectangle:
+                    size: root.width*0.175,root.height*0.1
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
+        Button:
+            id: btn2
+            font_size: root.height*0.04
+            text: "ҮГҮЙ"
+            size_hint: .175, .1
+            opacity: 0
+            pos_hint: {'x': .525,'y': .2}
+            background_normal: ''
+            background_color: 1,1,1,0
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "Main"
+                root.del1()
+    FloatLayout:
+        Label:
+            pos_hint: {'x': .4, 'y': 0.67}
+            canvas:
+                Color:
+                    rgba: rgba("#ebcf7c")
+                RoundedRectangle:
+                    size: root.width*0.19,root.height*0.25
+                    pos: self.pos
+                    radius: root.width*0.1,root.width*0.1,root.width*0.1,root.width*0.1
+        ImageButton:
+            source:'chkDevice.png'
+            size_hint: .15, .15
+            pos_hint: {'x': .425, 'y': .72}
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "Online"
+        Label:
+            pos_hint: {'x': .3, 'y': .5}
+            canvas:
+                Color:
+                    rgba: rgba("#535a5c")
+                RoundedRectangle:
+                    size: root.width*0.4,root.height*0.12
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
+        Button:
+            id: check_device
+            text: "Төхөөрөмжийг Шалгах"
+            font_size: root.height*0.04
+            size_hint: .4, .2
+            pos_hint: {'x': .3,'y': .46}
+            background_normal: ''
+            background_color: 1,1,1,0
+            on_press: root.chkDev()
 
 
 

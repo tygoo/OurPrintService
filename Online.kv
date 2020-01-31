@@ -1,93 +1,262 @@
 <ButtonCalc@Button>:
-    font_size: 60
+    font_size: root.height*0.6
     color: 1,1,1,1
-    size_hint: 0.2, 0.15
-
+    size_hint: 0.075, 0.1
+<ButtonCalca@Button>:
+    font_size:root.height*0.6
+    color: 1,1,1,1
+    size_hint: 0.152, 0.1
 <OnlineScreen>:
     name: "Online"
     TextInput:
         id: input
         multiline: False
         input_filter: 'int'
-        font_size: 200
+        font_size: root.height*0.145
         font_name: 'Arial'
         size_hint: .7, .2
-        pos_hint: {'x': .05,'center_y': .9}
+        pos_hint: {'x': .05,'center_y': .85}
         background_color: (1, 1, 1, 1)
         foreground_color: (0,0,0,1)
         on_text: root.chkUserNum()
         on_text_validate:
             root.value = int(self.text)
             root.validate(0, 99999999)
-    AnchorLayout:
-        anchor_x: 'right'
-        anchor_y: 'top'
+    FloatLayout:
+        Label:
+            pos_hint: {'x': .825, 'y': 0.175}
+            canvas:
+                Color:
+                    rgba: rgba("#4fd188")
+                RoundedRectangle:
+                    size: root.width*0.15,root.height*0.12
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
         Button:
             id: submit
             text: "Шалгах"
-            font_size: 50
-            size_hint: .2, .4
+            font_size: root.height*0.04
+            pos_hint: {'x': .835, 'y': 0.175}
+            size_hint: .13, .13
             background_normal: ''
-            background_color: rgba("#21bf6d")
+            background_color: 1,1,1,0
+            border: 30, 30, 30, 30
             on_press: root.register()
-    AnchorLayout:
-        anchor_x: 'right'
-        anchor_y: 'bottom'
+
+    FloatLayout:
+        Label:
+            pos_hint: {'x': .825, 'y': 0.025}
+            canvas:
+                Color:
+                    rgba: rgba("#d64f66")
+                RoundedRectangle:
+                    size: root.width*0.15,root.height*0.12
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
         Button:
             id: Back_page
             text: "Буцах"
-            font_size: 50
-            size_hint: .2, .4
+            font_size: root.height*0.04
+            size_hint: .13, .13
+            pos_hint: {'x': .835, 'y': 0.025}
+            background_color: 1,1,1,0
             background_normal: ''
-            background_color: rgba("#d63c3c")
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = "Main"
                 root.clr_btn()
-
     FloatLayout:
         ButtonCalc:
-            text: "7"
-            pos_hint: {'x': 0.05, 'y': 0.6}
+            id: b0
+            text: "0"
+            pos_hint: {'x': 0.026,'y': 0.5}
             on_press: input.text += self.text
         ButtonCalc:
-            text: "8"
-            pos_hint: {'x': 0.3, 'y': 0.6}
-            on_press: input.text += self.text
-        ButtonCalc:
-            text: "9"
-            pos_hint: {'x': 0.55, 'y': 0.6}
-            on_press: input.text += self.text
-        ButtonCalc:
-            text: "4"
-            pos_hint: {'x': 0.05, 'y': 0.43}
-            on_press: input.text += self.text
-        ButtonCalc:
-            text: "5"
-            pos_hint: {'x': 0.3, 'y': 0.43}
-            on_press: input.text += self.text
-        ButtonCalc:
-            text: "6"
-            pos_hint: {'x': 0.55, 'y': 0.43}
-            on_press: input.text += self.text
-        ButtonCalc:
+            id : b1
             text: "1"
-            pos_hint: {'x': 0.05, 'y': 0.255}
+            pos_hint: {'x': 0.103,'y': 0.5}
             on_press: input.text += self.text
         ButtonCalc:
             text: "2"
-            pos_hint: {'x': 0.3, 'y': 0.255}
+            pos_hint: {'x': 0.180,'y': 0.5}
             on_press: input.text += self.text
         ButtonCalc:
             text: "3"
-            pos_hint: {'x': 0.55, 'y': 0.255}
+            pos_hint: {'x': 0.257,'y': 0.5}
             on_press: input.text += self.text
         ButtonCalc:
-            text: "0"
-            pos_hint: {'x': 0.05, 'y': 0.08}
-            size_hint: 0.45, 0.15
+            text: "4"
+            pos_hint: {'x': 0.334,'y': 0.5}
             on_press: input.text += self.text
         ButtonCalc:
-            text: "Арилгах"
-            pos_hint: {'x': .55, 'y': .08}
+            text: "5"
+            pos_hint: {'x': 0.411,'y': 0.5}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "6"
+            pos_hint: {'x': 0.488,'y': 0.5}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "7"
+            pos_hint: {'x': 0.565,'y': 0.5}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "8"
+            pos_hint: {'x': 0.642,'y': 0.5}
+            on_press: input.text += self.text
+        ButtonCalc:
+            text: "9"
+            pos_hint: {'x': 0.719,'y': 0.5}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bq
+            text: "q"
+            pos_hint: {'x': 0.026,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bw
+            text: "w"
+            pos_hint: {'x': 0.103,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: be
+            text: "e"
+            pos_hint: {'x': 0.180,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: br
+            text: "r"
+            pos_hint: {'x': 0.257,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bt
+            text: "t"
+            pos_hint: {'x': 0.334,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: by
+            text: "y"
+            pos_hint: {'x': 0.411,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bu
+            text: "u"
+            pos_hint: {'x': 0.488,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bi
+            text: "i"
+            pos_hint: {'x': 0.565,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bo
+            text: "o"
+            pos_hint: {'x': 0.642,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bp
+            text: "p"
+            pos_hint: {'x': 0.719,'y': 0.39}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: ba
+            text: "a"
+            pos_hint: {'x': 0.062,'y': 0.28}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bs
+            text: "s"
+            pos_hint: {'x': 0.139,'y': 0.28}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bd
+            text: "d"
+            pos_hint: {'x': 0.216,'y': 0.28}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bf
+            text: "f"
+            pos_hint: {'x': 0.293,'y': 0.28}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bg
+            text: "g"
+            pos_hint: {'x': 0.370,'y': 0.28}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bh
+            text: "h"
+            pos_hint: {'x': 0.447,'y': 0.28}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bj
+            text: "j"
+            pos_hint: {'x': 0.524,'y': 0.28}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bk
+            text: "k"
+            pos_hint: {'x': 0.601,'y': 0.28}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bl
+            text: "l"
+            pos_hint: {'x': 0.678,'y': 0.28}
+            on_press: input.text += self.text
+        Button:
+            font_size:root.height*0.6
+            size_hint: 0.075, 0.1
+            background_normal: ''
+            background_color: 0.95, 0.95, 0.95, 1
+            pos_hint: {'x': 0.026,'y': 0.17}
+            on_press: root.btn_one_clk()
+            canvas:
+                Rectangle:
+                    source: '123.png'
+                    pos: self.pos
+                    size: self.size
+        ButtonCalc:
+            id: bz
+            text: "z"
+            pos_hint: {'x': 0.103,'y': 0.17}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bx
+            text: "x"
+            pos_hint: {'x': 0.18,'y': 0.17}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bc
+            text: "c"
+            pos_hint: {'x': 0.257,'y': 0.17}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bv
+            text: "v"
+            pos_hint: {'x': 0.334,'y': 0.17}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bb
+            text: "b"
+            pos_hint: {'x': 0.411,'y': 0.17}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bn
+            text: "n"
+            pos_hint: {'x': 0.488,'y': 0.17}
+            on_press: input.text += self.text
+        ButtonCalc:
+            id: bm
+            text: "m"
+            pos_hint: {'x': 0.565,'y': 0.17}
+            on_press: input.text += self.text
+        ButtonCalca:
+            text:"Устгах"
+            pos_hint: {'x': 0.642,'y': 0.17}
             on_press: root.delete_input()
+    Label:
+        id: Error_comment
+        color: rgba("#d63c3c")
+        font_size: root.height*0.05
+        pos_hint: {'center_x': 0.4, 'center_y': 0.7}
+

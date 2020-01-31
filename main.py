@@ -20,6 +20,9 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.lang import Builder
 from kivy.utils import platform as core_platform
+from kivy.uix.button import ButtonBehavior
+from kivy.uix.image import Image
+from kivy.graphics import Rectangle, Color, RoundedRectangle, Ellipse
 from functools import partial
 from kivy.uix.button import Button
 from kivy.uix.switch import Switch
@@ -47,17 +50,21 @@ filesize_units = ('B', 'KB', 'MB', 'GB', 'TB')
 sys.path.insert(0, '/Users/macbook/Documents/python test/ScreenManager')
 sys.path.insert(0, '/Users/macbook/Documents/python test/ScreenManager/docx2pdf-master2/docx2pdf/__init__.py')
 sys.path.insert(0, "/Users/macbook/python test/lib/python2.7/site-packages/kivy/uix/fileChooser.py")
-UsrPathSaverTxtFile = "aaa.txt"
+UsrPathSaverTxtFile = "UsrDevFile.txt"
 Window.clearcolor = (0.95,0.95,0.95,1)
 _have_win32file = False
 data_color = False
 data_pageNum = 1
 save_value = 0
+Online_CntNum = 0
+Request_Value = 0
 checkerVariable = ['.DS_Store']
-
 class MainScreen(Screen):
+    def sda(self):
+        print('sda')
     pass
-
+class ImageButton(ButtonBehavior, Image):
+    pass
 class OfflineScreen(Screen):
     def chkDev(self):
         global save_path1, k
@@ -73,6 +80,8 @@ class OfflineScreen(Screen):
                 self.ids.WarningText.text = "YOUR FILE HAS SAVED. DO YOU CONTINUE?"
                 self.ids.btn1.opacity = 1
                 self.ids.btn2.opacity = 1
+                self.ids.opLbl_true.opacity = 1
+                self.ids.opLbl_false.opacity = 1
             else:
                 self.ids.WarningText.text = "PLEASE CHOOSE YOUR FILE!"
         else:
@@ -82,6 +91,8 @@ class OfflineScreen(Screen):
         self.ids.WarningText.text = "PLEASE ENTER YOUR DEVICE"
         self.ids.btn1.opacity = 0
         self.ids.btn2.opacity = 0
+        self.ids.opLbl_true.opacity = 0
+        self.ids.opLbl_false.opacity = 0
         SaveButtonChk(False)
 
     # def convertFile(self):
@@ -118,7 +129,7 @@ class PrintScreen(Screen):
         else:
             data_pageNum = data_pageNum
         #-------------------------------READ PDF FILE PAGES NUM----------------------------------
-        # -------------------------------PDF TO IMAGE AND SAVE----------------------------------
+        # -------------------------------PDF SAVE----------------------------------
         inputArray = self.ids.pageNum_input.text
         last_array = []
         To_array = inputArray.split(",")
@@ -184,14 +195,29 @@ class PrintScreen(Screen):
 class OnlineScreen(Screen):
     def register(self):
         # -------------------------------SEND REQUEST TO SERVER----------------------------------
+        global Request_Value
         print('Entered Number by User:', self.ids.input.text)
+        # self.ids.Error_comment.text = "Please wait for a few second"
+        Request_Value = "asdfg12345"
+        if (self.ids.input.text == Request_Value):
+            self.ids.Error_comment.text = "Correct"
+            # self.manager.current =
+        elif len(self.ids.input.text) < 10:
+            self.ids.Error_comment.text = "Please enter your code"
+        elif (self.ids.input.text != Request_Value and len(self.ids.input.text) == 10):
+            self.ids.Error_comment.text = "Incorrect. Please check your code!"
+        else:
+            self.ids.Error_comment.text = " "
+
 
     def chkUserNum(self):
+        global Online_CntNum
         # -------------------------------USER CODE INPUT----------------------------------
-        if len(self.ids.input.text) > 8:
-            user_number = int(self.ids.input.text)
-            user_number = user_number / 10
-            self.ids.input.text = str(user_number)
+
+        if len(self.ids.input.text) > 10:
+            self.ids.input.text = self.ids.input.text[:-1]
+        if len(self.ids.input.text) == 10:
+            self.ids.Error_comment.text = "Are you sure?"
         print(len(self.ids.input.text))
         print(self.ids.input.text)
 
@@ -200,14 +226,72 @@ class OnlineScreen(Screen):
 
     def delete_input(self):
         self.ids.input.text = self.ids.input.text[:-1]
-    pass
+
+    def btn_one_clk(self):
+        global Online_CntNum
+        Online_CntNum += 1
+        Online_CntNum = Online_CntNum % 2
+        if (Online_CntNum != 0):
+            self.ids.bq.text = 'Q'
+            self.ids.bw.text = 'W'
+            self.ids.be.text = 'E'
+            self.ids.br.text = 'R'
+            self.ids.bt.text = 'T'
+            self.ids.by.text = 'Y'
+            self.ids.bu.text = 'U'
+            self.ids.bi.text = 'I'
+            self.ids.bo.text = 'O'
+            self.ids.bp.text = 'P'
+            self.ids.ba.text = 'A'
+            self.ids.bs.text = 'S'
+            self.ids.bd.text = 'D'
+            self.ids.bf.text = 'F'
+            self.ids.bg.text = 'G'
+            self.ids.bh.text = 'H'
+            self.ids.bj.text = 'J'
+            self.ids.bk.text = 'K'
+            self.ids.bl.text = 'L'
+            self.ids.bz.text = 'Z'
+            self.ids.bx.text = 'X'
+            self.ids.bc.text = 'C'
+            self.ids.bv.text = 'V'
+            self.ids.bb.text = 'B'
+            self.ids.bn.text = 'N'
+            self.ids.bm.text = 'M'
+        else:
+            self.ids.bq.text = 'q'
+            self.ids.bw.text = 'w'
+            self.ids.be.text = 'e'
+            self.ids.br.text = 'r'
+            self.ids.bt.text = 't'
+            self.ids.by.text = 'y'
+            self.ids.bu.text = 'u'
+            self.ids.bi.text = 'i'
+            self.ids.bo.text = 'o'
+            self.ids.bp.text = 'p'
+            self.ids.ba.text = 'a'
+            self.ids.bs.text = 's'
+            self.ids.bd.text = 'd'
+            self.ids.bf.text = 'f'
+            self.ids.bg.text = 'g'
+            self.ids.bh.text = 'h'
+            self.ids.bj.text = 'j'
+            self.ids.bk.text = 'k'
+            self.ids.bl.text = 'l'
+            self.ids.bz.text = 'z'
+            self.ids.bx.text = 'x'
+            self.ids.bc.text = 'c'
+            self.ids.bv.text = 'v'
+            self.ids.bb.text = 'b'
+            self.ids.bn.text = 'n'
+            self.ids.bm.text = 'm'
 
 class ScreenManagement(ScreenManager):
     pass
 
 class textinp(Widget):
-
     pass
+
 def getDocumentName():
     filename = 'ThePearl.PDF'
     return filename
