@@ -29,7 +29,7 @@ Root:
         orientation: "vertical"
         FileChooserListView:
             id: filechooser
-
+            foreground_color: rgba("#000000")
         BoxLayout:
             size_hint_y: None
             height: 30
@@ -48,6 +48,7 @@ Root:
         pos: root.pos
         orientation: "vertical"
         FileChooserListView:
+            foreground_color: rgba("#ffffff")
             id: filechooser
             on_selection: text_input.text = self.selection and self.selection[0] or ''
 

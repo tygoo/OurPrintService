@@ -22,6 +22,8 @@ from kivy.lang import Builder
 from kivy.utils import platform as core_platform
 from kivy.uix.button import ButtonBehavior
 from kivy.uix.image import Image
+from kivy.core.audio import SoundLoader
+from kivy.uix.slider import Slider
 from kivy.graphics import Rectangle, Color, RoundedRectangle, Ellipse
 from functools import partial
 from kivy.uix.button import Button
@@ -60,13 +62,14 @@ Online_CntNum = 0
 Request_Value = 0
 checkerVariable = ['.DS_Store']
 class MainScreen(Screen):
-    def sda(self):
-        print('sda')
+    def soundMain(self):
+        Sound()
     pass
 class ImageButton(ButtonBehavior, Image):
     pass
 class OfflineScreen(Screen):
     def chkDev(self):
+        Sound()
         global save_path1, k
         path = '/Users/macbook/Documents/python test/ScreenManager/FLASH'
         files = os.listdir(path)
@@ -80,6 +83,10 @@ class OfflineScreen(Screen):
                 self.ids.WarningText.text = "YOUR FILE HAS SAVED. DO YOU CONTINUE?"
                 self.ids.btn1.opacity = 1
                 self.ids.btn2.opacity = 1
+                self.ids.btn1.disabled = False
+                self.ids.btn2.disabled = False
+                self.ids.opLbl_true.opacity = 0
+                self.ids.opLbl_false.opacity = 0
                 self.ids.opLbl_true.opacity = 1
                 self.ids.opLbl_false.opacity = 1
             else:
@@ -88,13 +95,15 @@ class OfflineScreen(Screen):
             self.ids.WarningText.text = "PLEASE ENTER YOUR DEVICE!"
 
     def del1(self):
+        Sound()
         self.ids.WarningText.text = "PLEASE ENTER YOUR DEVICE"
         self.ids.btn1.opacity = 0
         self.ids.btn2.opacity = 0
+        self.ids.btn1.disabled = True
+        self.ids.btn2.disabled = True
         self.ids.opLbl_true.opacity = 0
         self.ids.opLbl_false.opacity = 0
         SaveButtonChk(False)
-
     # def convertFile(self):
         # f = open(UsrPathSaverTxtFile, "r")
         # filePath_text = f.read()
@@ -106,9 +115,11 @@ class OfflineScreen(Screen):
         #     convert("/Users/macbook/Documents/python test/doc2image")
 
         # print(convert_path[1])
+
     pass
 class PrintScreen(Screen):
     def switch_callback(self, switchObject, switchValue):
+        print("sda")
         # -------------------------------COLOR CHECK----------------------------------
         # Switch value are True and False
         if (switchValue):
@@ -190,12 +201,32 @@ class PrintScreen(Screen):
 
         print(self.ids.pageNum_input.text)
 
+    def sliderFunc(self, value):
+        max_value = 30
+        if self.ids.slider.range == [1, max_value]:
+            self.ids.slider.value += value
+            self.ids.slider_text.text = str(int(self.ids.slider.value))
+        else:
+            self.ids.slider.range = (1, max_value)
+
+    def pageValue(self, selected_value):
+        print(selected_value)
+
+    def Copies_Num(self, value):
+        copyNum = int(self.ids.copies_input.text)
+        if copyNum + value >= 1 and copyNum + value < 100:
+            copyNum += value
+        else:
+            copyNum = copyNum
+        self.ids.copies_input.text = str(copyNum)
+        print(self.ids.copies_input.text)
     pass
 
 class OnlineScreen(Screen):
     def register(self):
         # -------------------------------SEND REQUEST TO SERVER----------------------------------
         global Request_Value
+        Sound()
         print('Entered Number by User:', self.ids.input.text)
         # self.ids.Error_comment.text = "Please wait for a few second"
         Request_Value = "asdfg12345"
@@ -213,7 +244,7 @@ class OnlineScreen(Screen):
     def chkUserNum(self):
         global Online_CntNum
         # -------------------------------USER CODE INPUT----------------------------------
-
+        Sound()
         if len(self.ids.input.text) > 10:
             self.ids.input.text = self.ids.input.text[:-1]
         if len(self.ids.input.text) == 10:
@@ -222,6 +253,7 @@ class OnlineScreen(Screen):
         print(self.ids.input.text)
 
     def clr_btn(self):
+        Sound()
         self.ids.input.text = ''
 
     def delete_input(self):
@@ -304,7 +336,6 @@ def printDev(pageNum_1, pageNum_2, counter, filename):
     for tmp, page in enumerate(images_from_path):
         page.save(os.path.join(save_dir, base_filename + str(counter) + ".jpg"), 'JPEG')
         counter += 1
-
     return counter
 
 global savePath_func
@@ -322,6 +353,10 @@ def SaveButtonChk(SaveData):
         file = open(UsrPathSaverTxtFile, "w+")
         file.write('')
         file.close()
+def Sound():
+    sound = SoundLoader.load('click.mp3')
+    sound.play()
+
 
 with io.open("main.kv", encoding='utf8') as f:
     presentation = Builder.load_string(f.read())

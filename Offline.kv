@@ -1,5 +1,6 @@
 <OfflineScreen>:
     name: "Offline"
+
     FloatLayout:
         Label:
             pos_hint: {'x': .02, 'y': 0.025}
@@ -45,8 +46,9 @@
             id: btn1
             font_size: root.height*0.04
             text: "ТИЙМ"
+            disabled: True
             size_hint: .175, .1
-            opacity: 0
+            opacity:0
             pos_hint: {'x': .3,'y': .2}
             background_normal: ''
             background_color: 1,1,1,0
@@ -68,6 +70,7 @@
             id: btn2
             font_size: root.height*0.04
             text: "ҮГҮЙ"
+            disabled: True
             size_hint: .175, .1
             opacity: 0
             pos_hint: {'x': .525,'y': .2}
@@ -88,12 +91,9 @@
                     pos: self.pos
                     radius: root.width*0.1,root.width*0.1,root.width*0.1,root.width*0.1
         ImageButton:
-            source:'chkDevice.png'
+            source:'chkFlash.png'
             size_hint: .15, .15
             pos_hint: {'x': .425, 'y': .72}
-            on_press:
-                root.manager.transition.direction = 'right'
-                root.manager.current = "Online"
         Label:
             pos_hint: {'x': .3, 'y': .5}
             canvas:

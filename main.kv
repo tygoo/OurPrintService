@@ -18,12 +18,13 @@ ScreenManagement:
                     pos: self.pos
                     radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
         ImageButton:
-            source:'51e85384.png'
+            source:'world.png'
             size_hint: .45, .45
             pos_hint: {'x': .05, 'y': .4}
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = "Online"
+                root.soundMain()
         Label:
             text: "ОНЛАЙН ГОРИМ"
             pos_hint: {'x': -.225, 'y': -.15}
@@ -40,12 +41,13 @@ ScreenManagement:
                     pos: self.pos
                     radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
         ImageButton:
-            source:'flash_icon.png'
+            source:'flashDrive.png'
             pos_hint: {'x': .5, 'y': .4}
             size_hint: .45, .45
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = "Offline"
+                root.soundMain()
         Label:
             text: "ЭНГИЙН ГОРИМ"
             pos_hint: {'x': .225, 'y': -.15}

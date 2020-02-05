@@ -1,54 +1,282 @@
+<ButtonRound@Button>:
+    font_size: root.height*.2
+    font_size: root.width*.2
+    background_normal: ''
+    background_color: 1,1,1,0
+    size_hint: 0.15, 0.12
+<Label_Checkbox@Label>:
+    font_size: root.height*0.04
+    color: 0,0,0,1
+    text_size: self.size
+    halign: 'left'
+    valign: 'middle'
 <PrintScreen>:
     name: "printOpt"
     id: printOpt
-    Button:
-        id: offline_btn
-        text: "Буцах"
-        font_size: 50
-        size_hint: .2, .4
-        background_normal: ''
-        background_color: rgba("#d63c3c")
-        on_press:
-            root.manager.transition.direction = 'right'
-            root.manager.current = "Offline"
+    #-----------------------------------------BACK AND PRINT BUTTON------------------------------------
     FloatLayout:
-    Label:
-        text: 'Өнгөт эсвэл Хар'
-        color: rgba("#d63c3c")
-    Switch:
-        active: True
-        size_hint: .1, .1
-        pos_hint: {'x': .45,'y': .4}
-        on_active: root.switch_callback(self, self.active)
-    Button:
-        id: print_service
-        text: "Хэвлэх"
-        font_size: 50
-        size_hint: .2, .4
-        pos_hint: {'x': .8,'y': 0}
-        background_normal: ''
-        background_color: rgba("#a32189")
-        on_press: root.print_service()
-    Label:
-        text: "Хуудасны дугаар"
-        color: rgba("#d63c3c")
-        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
-    TextInput:
-        id: pageNum_input
-        hint_text:'1'
-        pos_hint: {'center_x': 0.5, 'center_y': 0.705}
-        size_hint: 0.3, 0.1
-        multiline: False
-        # top, bottom
-        padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
-        on_text: root.pageNum()
-        on_text_validate:
-            root.value = int(self.text)
-            root.validate(0, 999)
-    Label:
-        id: Error_comment
-        color: rgba("#d63c3c")
-        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+        Label:
+            pos_hint: {'x': .02, 'y': 0.025}
+            canvas:
+                Color:
+                    rgba: rgba("#d64f66")
+                RoundedRectangle:
+                    size: root.width*0.15,root.height*0.12
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
+        ButtonRound:
+            id: offline_btn
+            text: "Буцах"
+            pos_hint: {'x': .02, 'y': 0.025}
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "Offline"
+        Label:
+            pos_hint: {'x': .825, 'y': 0.025}
+            canvas:
+                Color:
+                    rgba: rgba("#4fd188")
+                RoundedRectangle:
+                    size: root.width*0.15,root.height*0.12
+                    pos: self.pos
+                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
+        ButtonRound:
+            id: print_service
+            text: "Хэвлэх"
+            pos_hint: {'x': .825, 'y': 0.025}
+            on_press: root.print_service()
+    #-----------------------------------------SLIDE SHOWER SECTION------------------------------------
+        Label:
+            pos_hint: {'x': .03, 'y': .225}
+            canvas:
+                Color:
+                    rgba: rgba("#ebebeb")
+                RoundedRectangle:
+                    size: root.width*0.4,root.height*0.725
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+    FloatLayout:
+        canvas:
+            Color:
+                rgba: rgba("#ffffff")
+            Rectangle:
+                size: root.width*.3, root.height*.6
+                pos: root.width*.0775, root.height*.32
+                id: imageView
+                source: 'Image1.png'
+        ImageButton:
+            source: "rightArrow.png"
+            size_hint: (.035, .045)
+            pos_hint: {'x': .375, 'y': .25}
+            disabled: False if slider.value < 300 else True
+            on_press: root.sliderFunc(1)
+        ImageButton:
+            source: "leftArrow.png"
+            size_hint: (.035, .045)
+            disabled: False if slider.value > 1 else True
+            pos_hint: {'x': .045, 'y': 0.25}
+            on_press: root.sliderFunc(-1)
+        Slider:
+            id: slider
+            value: 1
+            step: 1
+            size_hint: .3, .02
+            pos_hint: {'x':.0775, 'y':.265}
+            on_value: root.sliderFunc(0)
+        Label:
+            id: slider_text
+            text: "1"
+            font_size: root.height*.0175
+            font_size: root.width*.0175
+            color: rgba("#333333")
+            pos_hint: {'center_x': 0.225, 'center_y': 0.3}
+    #-----------------------------------------PRINTER SETTING SECTION------------------------------------
+    FloatLayout:
+    #---------------- COPIES------------------
+        Label:
+            pos_hint: {'x': .45, 'y': .85}
+            canvas:
+                Color:
+                    rgba: rgba("#ebebeb")
+                RoundedRectangle:
+                    size: root.width*0.5,root.height*0.1
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        Label_Checkbox:
+            text: "Copies"
+            pos_hint: {'x': .475, 'y': .4}
+        ImageButton:
+            source: "upButton.png"
+            pos_hint: {'x': 0.675, 'y': 0.8325}
+            size_hint: 0.03, 0.125
+            on_press: root.Copies_Num(1)
+        ImageButton:
+            source: "DownButton.png"
+            pos_hint: {'x': 0.825, 'y': 0.8325}
+            size_hint: 0.03, 0.125
+            on_press: root.Copies_Num(-1)
+        Label:
+            id: copies_input
+            text: '1'
+            color: 0,0,0,1
+            pos_hint: {'x': 0.725, 'y': 0.855}
+            font_size: root.height*0.05
+            size_hint: 0.075, 0.08
+        #----------------PAGES------------------
+        Label:
+            pos_hint: {'x': .45, 'y': .6425}
+            canvas:
+                Color:
+                    rgba: rgba("#ebebeb")
+                RoundedRectangle:
+                    size: root.width*0.5,root.height*0.19
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        Label:
+            pos_hint: {'x': .465, 'y': .74}
+            id: lab_all
+            canvas:
+                Color:
+                    rgba: rgba("#adadad")
+                RoundedRectangle:
+                    size: root.width*0.16,root.height*0.075
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        Button:
+            id: btn_all
+            text: "БҮХ ХУУДАС"
+            color: 0.95,0.95,0.95,1
+            pos_hint: {'x': 0.445, 'y': 0.7275}
+            size_hint: 0.2, 0.1
+            background_color: 1,1,1,0
+            font_size: root.width*.03
+            font_size: root.height*.03
+            on_press:
+                lab_all.opacity = 1
+                lab_custom.opacity = 0
+                pageNum_input.opacity = 0
+                pageNum_input.disabled = True
+                btn_custom.color = 0,0,0,1
+                btn_all.color = 0.95,0.95,0.95,1
+                all_caption.opacity = 1
+                root.pageValue(True)
+        Label:
+            id: all_caption
+            opacity: 1
+            text: "БҮХ ХУУДАС СОНГОГДСОН БАЙНА!"
+            font_size: root.width*.02
+            font_size: root.height*.0225
+            color: rgba("#37a151")
+            pos_hint: {'center_x': 0.79, 'center_y': 0.775}
+        Label:
+            id: lab_custom
+            opacity: 0
+            pos_hint: {'x': .465, 'y': .66}
+            canvas:
+                Color:
+                    rgba: rgba("#adadad")
+                RoundedRectangle:
+                    size: root.width*0.2,root.height*0.075
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        Button:
+            id: btn_custom
+            text: "ХУУДАС СОНГОХ"
+            color: 0,0,0,1
+            pos_hint: {'x': 0.465, 'y': 0.65}
+            size_hint: 0.2, 0.1
+            font_size: root.width*.03
+            font_size: root.height*.03
+            background_color: 1,1,1,0
+            on_press:
+                lab_all.opacity = 0
+                lab_custom.opacity = 1
+                pageNum_input.opacity = 1
+                pageNum_input.disabled = False
+                btn_custom.color = 0.95,0.95,0.95,1
+                btn_all.color = 0.1,0.1,0.1,1
+                all_caption.opacity = 0
+                root.pageValue(False)
+        TextInput:
+            id: pageNum_input
+            opacity: 0
+            disabled: True
+            hint_text:'ALL'
+            pos_hint: {'center_x': 0.8, 'center_y': 0.7}
+            size_hint: 0.265, 0.075
+            multiline: False
+            # top, bottom
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+            on_text: root.pageNum()
+            on_text_validate:
+                root.value = int(self.text)
+                root.validate(0, 999)
+        Label:
+            opacity: 1
+            id: Error_comment
+            color: rgba("#d63c3c")
+            pos_hint: {'center_x': 0.8, 'center_y': 0.75}
+    #------------------------------------COLOR CHOOSE---------------------------------------
+    FloatLayout:
+        Label:
+            pos_hint: {'x': .45, 'y': .225}
+            canvas:
+                Color:
+                    rgba: rgba("#ebebeb")
+                RoundedRectangle:
+                    size: root.width*0.5,root.height*0.4
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        Label:
+            pos_hint: {'x': .475, 'y': .275}
+            id: lab_colorful
+            canvas:
+                Color:
+                    rgba: rgba("#adadad")
+                RoundedRectangle:
+                    size: root.width*0.23,root.height*0.3
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        ImageButton:
+            source: "colorfile.png"
+            id: lab_colorless
+            pos_hint: {'x': 0.465, 'y': 0.3}
+            size_hint: 0.25, 0.25
+            on_press:
+                lab_colorful.pos_hint = {'x': .475, 'y': .275}
+        Label:
+            text: "ӨНГӨТ"
+            pos_hint: {'x': 0.4625, 'y': 0.125}
+            font_size: root.height*.0175
+            font_size: root.width*.0175
+            size_hint: 0.25, 0.25
+            color: 0,0,0,1
+        ImageButton:
+            source: "blackNwhite.png"
+            id: btn_colorless
+            pos_hint: {'x': 0.7, 'y': 0.3}
+            size_hint: 0.25, 0.25
+            on_press:
+                lab_colorful.pos_hint = {'x': .705, 'y': .275}
+        Label:
+            text: "ХАР ЦАГААН"
+            pos_hint: {'x': .7025, 'y': .125}
+            font_size: root.height*.0175
+            font_size: root.width*.0175
+            size_hint: 0.25, 0.25
+            color: 0,0,0,1
 
+        Switch:
+            opacity: 0
+            active: True
+            size_hint: .1, .1
+            pos_hint: {'x': .45,'y': .4}
+            on_active: root.switch_callback(self, self.active)
+
+        Label:
+            opacity: 0
+            text: "Хуудасны дугаар"
+            color: rgba("#d63c3c")
+            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
 
 
