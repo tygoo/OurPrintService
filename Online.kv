@@ -1,16 +1,41 @@
-<ButtonCalc@Button>:
+<Buttons@Button>:
     font_size: root.height*0.6
-    background_color: rgba("#c2c4c4")
+    background_color: 1,1,1,0
     background_normal: ''
     color: 0,0,0,1
-    size_hint: 0.075, 0.1
-    on_press:
-<ButtonCalca@Button>:
-    font_size:root.height*0.6
-    background_color: rgba("#c2c4c4")
+    size_hint: 0.0725, 0.1
+    button_x: 0.1
+    button_y: .2
+<Button_delete@Button>:
+    font_size: root.height*0.4
+    background_color: 1,1,1,0
     background_normal: ''
-    color: 0,0,0,1
+    color: 1,1,1,1
     size_hint: 0.152, 0.1
+    button_x: 0.1
+    button_y: .2
+<Label_but@Label>:
+    size_hint: 0.0725, 0.1
+    button_x: 0.1
+    button_y: .2
+    canvas:
+        Color:
+            rgba: rgba("#d9d9d9")
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: root.width*0.15,root.width*0.15,root.width*0.15,root.width*0.15
+<Label_del_but@Label>:
+    size_hint: 0.152, 0.1
+    button_x: 0.1
+    button_y: .2
+    canvas:
+        Color:
+            rgba: rgba("#e36666")
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: root.width*0.075,root.width*0.075,root.width*0.075,root.width*0.075
 <OnlineScreen>:
     name: "Online"
     TextInput:
@@ -20,7 +45,7 @@
         font_size: root.height*0.145
         font_name: 'Arial'
         size_hint: .7, .2
-        pos_hint: {'x': .05,'center_y': .85}
+        pos_hint: {'x': .135,'center_y': .85}
         background_color: (1, 1, 1, 1)
         foreground_color: (0,0,0,1)
         on_text: root.chkUserNum()
@@ -29,10 +54,17 @@
             root.validate(0, 99999999)
     FloatLayout:
         Label:
-            pos_hint: {'x': .825, 'y': 0.175}
+            pos_hint: {'x': 0.005, 'y': -0.0055}
+            canvas:
+                Rectangle:
+                    source: 'shadow1.png'
+                    size: root.width*0.205,root.height*0.185
+                    pos: self.pos
+        Label:
+            pos_hint: {'x': .035, 'y': 0.03}
             canvas:
                 Color:
-                    rgba: rgba("#4fd188")
+                    rgba: rgba("#59b9e3")
                 RoundedRectangle:
                     size: root.width*0.15,root.height*0.12
                     pos: self.pos
@@ -42,7 +74,7 @@
             text: "Шалгах"
             font_size: root.height*.04
             font_size: root.width*.03
-            pos_hint: {'x': .835, 'y': 0.175}
+            pos_hint: {'x': .045, 'y': 0.029}
             size_hint: .13, .13
             background_normal: ''
             background_color: 1,1,1,0
@@ -53,7 +85,14 @@
 
     FloatLayout:
         Label:
-            pos_hint: {'x': .825, 'y': 0.025}
+            pos_hint: {'x': 0.785, 'y': -0.005}
+            canvas:
+                Rectangle:
+                    source: 'shadow1.png'
+                    size: root.width*0.205,root.height*0.185
+                    pos: self.pos
+        Label:
+            pos_hint: {'x': .815, 'y': 0.03}
             canvas:
                 Color:
                     rgba: rgba("#d64f66")
@@ -67,215 +106,282 @@
             font_size: root.height*.04
             font_size: root.width*.03
             size_hint: .13, .13
-            pos_hint: {'x': .835, 'y': 0.025}
+            pos_hint: {'x': .825, 'y': 0.029}
             background_color: 1,1,1,0
             background_normal: ''
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = "Main"
                 root.clr_btn()
+                root.btn_one_clk()
     FloatLayout:
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x,'y': self.button_y + 0.33}
+        Buttons:
             id: b0
             text: "0"
-            pos_hint: {'x': 0.026,'y': 0.5}
+            pos_hint: {'x': self.button_x,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.077,'y': self.button_y + 0.33}
+        Buttons:
             id : b1
             text: "1"
-            pos_hint: {'x': 0.103,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.077,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.154,'y': self.button_y + 0.33}
+        Buttons:
             text: "2"
-            pos_hint: {'x': 0.180,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.154,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.231,'y': self.button_y + 0.33}
+        Buttons:
             text: "3"
-            pos_hint: {'x': 0.257,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.231,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.308,'y': self.button_y + 0.33}
+        Buttons:
             text: "4"
-            pos_hint: {'x': 0.334,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.308,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.385,'y': self.button_y + 0.33}
+        Buttons:
             text: "5"
-            pos_hint: {'x': 0.411,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.385,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.462,'y': self.button_y + 0.33}
+        Buttons:
             text: "6"
-            pos_hint: {'x': 0.488,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.462,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.539,'y': self.button_y + 0.33}
+        Buttons:
             text: "7"
-            pos_hint: {'x': 0.565,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.539,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.616,'y': self.button_y + 0.33}
+        Buttons:
             text: "8"
-            pos_hint: {'x': 0.642,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.616,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.693,'y': self.button_y + 0.33}
+        Buttons:
             text: "9"
-            pos_hint: {'x': 0.719,'y': 0.5}
+            pos_hint: {'x': self.button_x + 0.693,'y': self.button_y + 0.33}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x,'y': self.button_y + 0.22}
+        Buttons:
             id: bq
             text: "q"
-            pos_hint: {'x': 0.026,'y': 0.39}
+            pos_hint: {'x': self.button_x,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.077,'y': self.button_y + 0.22}
+        Buttons:
             id: bw
             text: "w"
-            pos_hint: {'x': 0.103,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.077,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.154,'y': self.button_y + 0.22}
+        Buttons:
             id: be
             text: "e"
-            pos_hint: {'x': 0.180,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.154,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.231,'y': self.button_y + 0.22}
+        Buttons:
             id: br
             text: "r"
-            pos_hint: {'x': 0.257,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.231,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.308,'y': self.button_y + 0.22}
+        Buttons:
             id: bt
             text: "t"
-            pos_hint: {'x': 0.334,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.308,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.385,'y': self.button_y + 0.22}
+        Buttons:
             id: by
             text: "y"
-            pos_hint: {'x': 0.411,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.385,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.462,'y': self.button_y + 0.22}
+        Buttons:
             id: bu
             text: "u"
-            pos_hint: {'x': 0.488,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.462,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.539,'y': self.button_y + 0.22}
+        Buttons:
             id: bi
             text: "i"
-            pos_hint: {'x': 0.565,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.539,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.616,'y': self.button_y + 0.22}
+        Buttons:
             id: bo
             text: "o"
-            pos_hint: {'x': 0.642,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.616,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.693,'y': self.button_y + 0.22}
+        Buttons:
             id: bp
             text: "p"
-            pos_hint: {'x': 0.719,'y': 0.39}
+            pos_hint: {'x': self.button_x + 0.693,'y': self.button_y + 0.22}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.036,'y': self.button_y + 0.11}
+        Buttons:
             id: ba
             text: "a"
-            pos_hint: {'x': 0.062,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.036,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.113,'y': self.button_y + 0.11}
+        Buttons:
             id: bs
             text: "s"
-            pos_hint: {'x': 0.139,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.113,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.19,'y': self.button_y + 0.11}
+        Buttons:
             id: bd
             text: "d"
-            pos_hint: {'x': 0.216,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.19,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.267,'y': self.button_y + 0.11}
+        Buttons:
             id: bf
             text: "f"
-            pos_hint: {'x': 0.293,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.267,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.344,'y': self.button_y + 0.11}
+        Buttons:
             id: bg
             text: "g"
-            pos_hint: {'x': 0.370,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.344,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.421,'y': self.button_y + 0.11}
+        Buttons:
             id: bh
             text: "h"
-            pos_hint: {'x': 0.447,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.421,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.498,'y': self.button_y + 0.11}
+        Buttons:
             id: bj
             text: "j"
-            pos_hint: {'x': 0.524,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.498,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.575,'y': self.button_y + 0.11}
+        Buttons:
             id: bk
             text: "k"
-            pos_hint: {'x': 0.601,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.575,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.652,'y': self.button_y + 0.11}
+        Buttons:
             id: bl
             text: "l"
-            pos_hint: {'x': 0.678,'y': 0.28}
+            pos_hint: {'x': self.button_x + 0.652,'y': self.button_y + 0.11}
             on_press: input.text += self.text
-        Label:
-            pos_hint: {'x': 0.026,'y': 0.17}
-            canvas:
-                Color:
-                    rgba: rgba("#c2c4c4")
-                Rectangle:
-                    size: root.width*0.075,root.height*0.1
-                    pos: self.pos
-        ImageButton:
-            source:'upDown.png'
-            size_hint: 0.070, 0.075
-            pos_hint: {'x': 0.03,'y': 0.18}
+        Label_but:
+            pos_hint: {'x': self.button_x,'y': self.button_y}
+        Buttons:
+            font_size:root.height*0.6
+            pos_hint: {'x': self.button_x,'y': self.button_y}
             on_press: root.btn_one_clk()
-        ButtonCalc:
+            canvas:
+                Rectangle:
+                    source: 'upDown.png'
+                    pos: root.width*self.button_x*1.025, root.height*self.button_y*1.025
+                    size: root.width*0.07,root.height*0.09
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.077,'y': self.button_y}
+        Buttons:
             id: bz
             text: "z"
-            pos_hint: {'x': 0.103,'y': 0.17}
+            pos_hint: {'x': self.button_x + 0.077,'y': self.button_y}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.154,'y': self.button_y}
+        Buttons:
             id: bx
             text: "x"
-            pos_hint: {'x': 0.18,'y': 0.17}
+            pos_hint: {'x': self.button_x + 0.154,'y': self.button_y}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.231,'y': self.button_y}
+        Buttons:
             id: bc
             text: "c"
-            pos_hint: {'x': 0.257,'y': 0.17}
+            pos_hint: {'x': self.button_x + 0.231,'y': self.button_y}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.308,'y': self.button_y}
+        Buttons:
             id: bv
             text: "v"
-            pos_hint: {'x': 0.334,'y': 0.17}
+            pos_hint: {'x': self.button_x + 0.308,'y': self.button_y}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.385,'y': self.button_y}
+        Buttons:
             id: bb
             text: "b"
-            pos_hint: {'x': 0.411,'y': 0.17}
+            pos_hint: {'x': self.button_x + 0.385,'y': self.button_y}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.462,'y': self.button_y}
+        Buttons:
             id: bn
             text: "n"
-            pos_hint: {'x': 0.488,'y': 0.17}
+            pos_hint: {'x': self.button_x + 0.462,'y': self.button_y}
             on_press: input.text += self.text
-        ButtonCalc:
+        Label_but:
+            pos_hint: {'x': self.button_x + 0.539,'y': self.button_y}
+        Buttons:
             id: bm
             text: "m"
-            pos_hint: {'x': 0.565,'y': 0.17}
+            pos_hint: {'x': self.button_x + 0.539,'y': self.button_y}
             on_press: input.text += self.text
-        Label:
-            pos_hint: {'x': 0.642,'y': 0.17}
-            canvas:
-                Color:
-                    rgba: rgba("#c2c4c4")
-                Rectangle:
-                    size: root.width*0.152,root.height*0.1
-                    pos: self.pos
-        ImageButton:
-            source:'delButton.png'
-            size_hint: 0.15, 0.1
-            pos_hint: {'x': 0.64,'y': 0.17}
+        Label_del_but:
+            pos_hint: {'x': self.button_x + 0.616,'y': self.button_y}
+        Button_delete:
+            pos_hint: {'x': self.button_x + 0.616,'y': self.button_y}
             on_press: root.delete_input()
-    Label:
-        id: Error_comment
-        color: rgba("#d63c3c")
-        font_size: root.height*0.05
-        pos_hint: {'center_x': 0.4, 'center_y': 0.7}
-
+            canvas:
+                Rectangle:
+                    source: 'printDelBtn.png'
+                    size: root.width*0.07,root.height*0.08
+                    pos: root.width*0.76,root.height*0.21
+        Label:
+            id: Error_comment
+            color: rgba("#d63c3c")
+            font_size: root.height*0.05
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}

@@ -3,6 +3,13 @@
 
     FloatLayout:
         Label:
+            pos_hint: {'x': -.009, 'y': -0.011}
+            canvas:
+                Rectangle:
+                    source: 'shadow1.png'
+                    size: root.width*0.205,root.height*0.185
+                    pos: self.pos
+        Label:
             pos_hint: {'x': .02, 'y': 0.025}
             canvas:
                 Color:
@@ -14,7 +21,8 @@
         Button:
             id: offline_btn
             text: "Буцах"
-            font_size: 50
+            font_size: root.height*.04
+            font_size: root.width*.03
             size_hint: .13, .13
             pos_hint: {'x': .03, 'y': 0.025}
             background_normal: ''
@@ -23,21 +31,45 @@
                 root.manager.transition.direction = 'right'
                 root.manager.current = "Main"
                 root.del1()
-
     FloatLayout:
+        pos_hint: {'x': .525, 'y': 0}
+        Label:
+            pos_hint: {'x': .02, 'y': .165}
+            canvas:
+                Color:
+                    rgba: rgba("#ededed")
+                RoundedRectangle:
+                    size: root.width*0.43,root.height*0.785
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        Label:
+            pos_hint: {'x': .155, 'y': 0.735}
+            canvas:
+                Color:
+                    rgba: rgba("#ebcf7c")
+                RoundedRectangle:
+                    size: root.width*0.15,root.height*0.19
+                    pos: self.pos
+                    radius: root.width*0.05,root.width*0.05,root.width*0.05,root.width*0.05
+        ImageButton:
+            source:'chkFlash.png'
+            size_hint: .125, .125
+            pos_hint: {'x': .17, 'y': .765}
         Label:
             id: WarningText
-            font_size: root.height*0.04
-            text: 'Та төхөөрөмжөө ГУРАВ дугаарын оролтонд залгана уу!'
-            color: rgba("#d63c3c")
-            pos_hint: {'x': 0,'y': -.15}
+            font_size: root.height*0.03
+            size_hint: .4, .1
+            text: '       Та төхөөрөмжөө ГУРАВ \n дугаарын оролтонд залгана уу!'
+            color: rgba("#eb5757")
+            pos_hint: {'x': .0275,'y': .5}
+
         Label:
             id: opLbl_true
             opacity: 0
-            pos_hint: {'x': .3, 'y': 0.2}
+            pos_hint: {'x': .05, 'y': .4}
             canvas:
                 Color:
-                    rgba: rgba("#4fd188")
+                    rgba: rgba("#46db9b")
                 RoundedRectangle:
                     size: root.width*0.175,root.height*0.1
                     pos: self.pos
@@ -49,16 +81,17 @@
             disabled: True
             size_hint: .175, .1
             opacity:0
-            pos_hint: {'x': .3,'y': .2}
+            pos_hint: {'x': .05,'y': .4}
             background_normal: ''
             background_color: 1,1,1,0
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = "printOpt"
+
         Label:
             id: opLbl_false
             opacity: 0
-            pos_hint: {'x': .525, 'y': 0.2}
+            pos_hint: {'x': .25, 'y': .4}
             canvas:
                 Color:
                     rgba: rgba("#d64f66")
@@ -73,7 +106,7 @@
             disabled: True
             size_hint: .175, .1
             opacity: 0
-            pos_hint: {'x': .525,'y': .2}
+            pos_hint: {'x': .25,'y': .4}
             background_normal: ''
             background_color: 1,1,1,0
             on_press:
@@ -81,37 +114,91 @@
                 root.manager.current = "Main"
                 root.del1()
     FloatLayout:
+        pos_hint: {'x': -.45, 'y': 0}
         Label:
-            pos_hint: {'x': .4, 'y': 0.67}
+            background_normal: 'red_button_normal.png'
+            background_down: 'red_button_down.png'
+            pos_hint: {'x': .475, 'y': .165}
             canvas:
                 Color:
-                    rgba: rgba("#ebcf7c")
+                    rgba: rgba("#bababa")
                 RoundedRectangle:
-                    size: root.width*0.19,root.height*0.25
+                    size: root.width*0.5,root.height*0.785
                     pos: self.pos
-                    radius: root.width*0.1,root.width*0.1,root.width*0.1,root.width*0.1
-        ImageButton:
-            source:'chkFlash.png'
-            size_hint: .15, .15
-            pos_hint: {'x': .425, 'y': .72}
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
         Label:
-            pos_hint: {'x': .3, 'y': .5}
+            color: 1,1,1,1
+            pos_hint: {'x': .475, 'y': .9}
             canvas:
                 Color:
-                    rgba: rgba("#535a5c")
+                    rgba: rgba("#333333")
                 RoundedRectangle:
-                    size: root.width*0.4,root.height*0.12
+                    size: root.width*0.5,root.height*0.05
                     pos: self.pos
-                    radius: root.width*0.03,root.width*0.03,root.width*0.03,root.width*0.03
-        Button:
-            id: check_device
-            text: "Төхөөрөмжийг Шалгах"
-            font_size: root.height*0.04
-            size_hint: .4, .2
-            pos_hint: {'x': .3,'y': .46}
-            background_normal: ''
-            background_color: 1,1,1,0
-            on_press: root.chkDev()
+                    radius: root.width*0.01,root.width*0.01,root.width*0,root.width*0
+        Label:
+            pos_hint: {'x': .225, 'y': .42}
+            text: "ФАЙЛ СОНГОХ"
+            color: 1,1,1,1
 
+        FileChooserIconView:
+            background_normal: ''
+            background_color: rgba("#000000")
+            color: 1,1,1,1
+            foreground_color: rgba("#ffffff")
+            size_hint: .48, .625
+            pos_hint: {'x': .48,'y': .275}
+            id: filechooser
+            on_selection: root.checkStr(self.selection)
+
+        Label:
+            pos_hint: {'x': .505, 'y': .185}
+            canvas:
+                Color:
+                    rgba: rgba("#3b3b3b")
+                RoundedRectangle:
+                    size: root.width*0.21,root.height*0.1
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        Button:
+            color: rgba("#ffffff")
+            size_hint: .225, .1
+            pos_hint: {'x': .510, 'y': .185}
+            background_normal: ''
+            background_color: 0,0,0,0
+            on_press: root.refresh()
+            canvas:
+                Rectangle:
+                    source: 'reloadBtn.png'
+                    size: root.width*0.045,root.height*0.065
+                    pos: root.width*0.1375,root.height*.205
+
+        Label:
+            pos_hint: {'x': .735, 'y': .185}
+            canvas:
+                Color:
+                    rgba: rgba("#46db9b")
+                RoundedRectangle:
+                    size: root.width*0.21,root.height*0.1
+                    pos: self.pos
+                    radius: root.width*0.01,root.width*0.01,root.width*0.01,root.width*0.01
+        Button:
+            text: "Сонгох"
+            disabled: False
+            id: save
+            color: rgba("#444444")
+            on_release: root.chkDev(filechooser.selection)
+            font_size: root.height*0.04
+            size_hint: .34, .1
+            pos_hint: {'x': .675, 'y': .185}
+            background_normal: ''
+            background_color: 0,0,0,0
+    FloatLayout:
+        Label:
+            font_size: root.height*0.025
+            size_hint: .4, .1
+            text: 'Та дараах өргөтгөлтэй файлуудыг сонгох боломжтой! \nӨргөтгөлүүд: (DOCX, PDF, XLS)'
+            color: rgba("#eb5757")
+            pos_hint: {'x': .3, 'y': 0.025}
 
 
