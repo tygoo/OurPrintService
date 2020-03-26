@@ -12,75 +12,89 @@ import os
 import io
 import subprocess
 import tempfile
-from subprocess import call
-from kivy.app import App
-from kivy.lang import Builder
-from kivy.uix.widget import Widget
-from kivy.core.window import Window
-from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
-from kivy.lang import Builder
-from kivy.utils import platform as core_platform
-from kivy.uix.button import ButtonBehavior
-from kivy.uix.image import Image
-from kivy.core.audio import SoundLoader
-from kivy.uix.slider import Slider
-from kivy.graphics import Rectangle, Color, RoundedRectangle, Ellipse
-from functools import partial
-from kivy.uix.button import Button
-from kivy.uix.switch import Switch
-from kivy.factory import Factory
-from kivy.properties import ObjectProperty
-from kivy.uix.popup import Popup
-from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.textinput import TextInput
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
-from pdf2image.pdf2image import convert_from_path
-with io.open("Online.kv", encoding='utf8') as f:
-    Builder.load_string(f.read())
-with io.open("Offline.kv", encoding='utf8') as f:
-    Builder.load_string(f.read())
-with io.open("fileChooser.kv", encoding='utf8') as f:
-    Builder.load_string(f.read())
-with io.open("printOpt.kv", encoding='utf8') as f:
-    Builder.load_string(f.read())
+from subprocess                 import call
+from kivy.app                   import App
+from kivy.lang                  import Builder
+from kivy.uix.widget            import Widget
+from kivy.core.window           import Window
+from kivy.uix.screenmanager     import ScreenManager, Screen, FadeTransition
+from kivy.lang                  import Builder
+from kivy.utils                 import platform as core_platform
+from kivy.uix.button            import ButtonBehavior
+from kivy.uix.image             import Image
+from kivy.core.audio            import SoundLoader
+from kivy.clock import Clock
+from datetime import datetime
+from datetime import timedelta
+import kivy.uix.filechooser
+from kivy.uix.filechooser import *
+from kivy.uix.carousel import Carousel
+from kivy.uix.slider            import Slider
+from kivy.graphics              import Rectangle, Color, RoundedRectangle, Ellipse
+from functools                  import partial
+from kivy.uix.button            import Button
+from kivy.factory               import Factory
+from kivy.properties            import ObjectProperty
+from kivy.uix.popup             import Popup
+from kivy.uix.anchorlayout      import AnchorLayout
+from kivy.uix.gridlayout        import GridLayout
+from kivy.uix.textinput         import TextInput
+from kivy.uix.boxlayout         import BoxLayout
+from kivy.uix.floatlayout       import FloatLayout
+from pdf2image.pdf2image        import convert_from_path
+from kivy.input.motionevent     import MotionEvent
+_have_win32file     = False
+PageChooserValue    = True
+data_color          = "-color"
+data_pageNum        = 1
+save_value          = 0
+Online_CntNum       = 0
+Request_Value       = 0
+# with io.open("Online.kv", encoding='utf8') as f:
+#     Builder.load_string(f.read())
+# with io.open("Offline.kv", encoding='utf8') as f:
+#     Builder.load_string(f.read())
+# with io.open("fileChooser.kv", encoding='utf8') as f:
+#     Builder.load_string(f.read())
+# with io.open("printOpt.kv", encoding='utf8') as f:
+#     Builder.load_string(f.read())
+Builder.load_file("Online.kv")
+Builder.load_file("Offline.kv")
+Builder.load_file("fileChooser.kv")
+Builder.load_file("printOpt.kv")
 from PyPDF2 import PdfFileReader
 from pdf2image import convert_from_path
 platform = core_platform
 filesize_units = ('B', 'KB', 'MB', 'GB', 'TB')
-sys.path.insert(0, '/Users/macbook/Documents/python test/ScreenManager')
 sys.path.insert(0, '/Users/macbook/Documents/python test/ScreenManager/docx2pdf-master2/docx2pdf/__init__.py')
 sys.path.insert(0, "/Users/macbook/python test/lib/python2.7/site-packages/kivy/uix/fileChooser.py")
-UsrPathSaverTxtFile = "UsrDevFile.txt"
 Window.clearcolor = (0.95,0.95,0.95,1)
-_have_win32file = False
-data_color = False
-data_pageNum = 1
-save_value = 0
-Online_CntNum = 0
-Request_Value = 0
 checkerVariable = ['.DS_Store']
 class MainScreen(Screen):
     def soundMain(self):
         Sound()
+
+    def pointTouch(self):
+        if self.ids.touchLabel.opacity == 1:
+            self.ids.touchLabel.opacity = 0
+        else:
+            self.ids.touchLabel.opacity = 1
     pass
 class ImageButton(ButtonBehavior, Image):
     pass
 class OfflineScreen(Screen):
-    def chkDev(self):
+    def refresh(self):
+        self.ids.filechooser._update_files()
+    def chkDev(self, Send_path):
+        print(Send_path)
         Sound()
         global save_path1, k
-        path = '/Users/macbook/Documents/python test/ScreenManager/FLASH'
-        files = os.listdir(path)
+        flash_path = '/Users/macbook/Documents/python test/ScreenManager/FLASH'
+        files = os.listdir(flash_path)
         print("ohh" ,files)
         if files != checkerVariable:
-            call(["python", "/Users/macbook/python test/lib/python2.7/site-packages/kivy/uix/fileChooser.py"])
-            f = open(UsrPathSaverTxtFile, "r")
-            filePath_text = f.read()
-            f.close()
-            if filePath_text != '':
-                self.ids.WarningText.text = "YOUR FILE HAS SAVED. DO YOU CONTINUE?"
+            if Send_path != []:
+                self.ids.WarningText.text = "DO YOU CONTINUE?"
                 self.ids.btn1.opacity = 1
                 self.ids.btn2.opacity = 1
                 self.ids.btn1.disabled = False
@@ -103,7 +117,20 @@ class OfflineScreen(Screen):
         self.ids.btn2.disabled = True
         self.ids.opLbl_true.opacity = 0
         self.ids.opLbl_false.opacity = 0
-        SaveButtonChk(False)
+
+    def checkStr(self, Chkstr):
+        print(Chkstr)
+        if Chkstr != []:
+            DataString = str(Chkstr).split(".")
+            DataString = DataString[1].split("'")
+            if DataString[0] == 'pdf' or DataString[0] == 'PDF' or DataString[0] == 'DOC' or DataString[0] == 'DOCX' or \
+                    DataString[0] == 'doc' or DataString[0] == 'docx' or \
+                    DataString[0] == 'XLS' or DataString[0] == 'xls' or DataString[0] == 'TXT' or DataString[0] == 'txt':
+                self.ids.save.disabled = False
+                print(Chkstr)
+            else:
+                self.ids.save.disabled = True
+            print(DataString[0])
     # def convertFile(self):
         # f = open(UsrPathSaverTxtFile, "r")
         # filePath_text = f.read()
@@ -117,53 +144,46 @@ class OfflineScreen(Screen):
         # print(convert_path[1])
 
     pass
+#----------------------------------------------------PRINT PAGE---------------------------------------------
 class PrintScreen(Screen):
-    def switch_callback(self, switchObject, switchValue):
-        print("sda")
-        # -------------------------------COLOR CHECK----------------------------------
-        # Switch value are True and False
-        if (switchValue):
-            global data_color
-            data_color = False
-            print('SET UP IN COLOR MODE')
-        else:
-            data_color = True
-            print('SET UP IN GRAYSCALE MODE')
-        return data_color
-
+    kb_x = 0
+    kb_y = 0
     def print_service(self):
-        global data_color, data_pageNum
+        global data_color, data_pageNum, PageChooserValue
+        pdf = PdfFileReader(open(getDocumentName(), 'rb'))
+        TotalPage = pdf.getNumPages()
         # -------------------------------PAGE NUMBER PROTECTION----------------------------------
-        data_pageNum = self.ids.pageNum_input.text
-        if(data_pageNum == ''):
-            data_pageNum = 1
+        if PageChooserValue is False:
+            data_pageNum = self.ids.pageNum_input.text
+            if(data_pageNum == ''):
+                data_pageNum = '1' + '-' + str(TotalPage)
+            else:
+                data_pageNum = data_pageNum
         else:
-            data_pageNum = data_pageNum
+            pdf = PdfFileReader(open(getDocumentName(), 'rb'))
+            TotalPage = pdf.getNumPages()
+            data_pageNum = '1' + '-' + str(TotalPage)
         #-------------------------------READ PDF FILE PAGES NUM----------------------------------
         # -------------------------------PDF SAVE----------------------------------
-        inputArray = self.ids.pageNum_input.text
-        last_array = []
+        inputArray = data_pageNum
         To_array = inputArray.split(",")
         page_counter = 0
         for i in To_array:
             if i.find("-") != -1:
                 save_array = i.split("-")
+                print(save_array)
                 #---------------------------------Call printDev Function---------------------------------
-                page_counter = printDev(int(save_array[0]), int(save_array[1]), page_counter, getDocumentName())
+                # page_counter = printDev(int(save_array[0]), int(save_array[1]), page_counter, getDocumentName())
             else:
                 # ---------------------------------Call printDev Function---------------------------------
-                page_counter = printDev(int(i), int(i), page_counter, getDocumentName())
+                # page_counter = printDev(int(i), int(i), page_counter, getDocumentName())
+                print(int(i))
 
     def pageNum(self):
         #------------------------TEXT INPUT LIMIT---------------------------
-        # if len(self.ids.pageNum_input.text) > 4:
-        #    user_pNum = int(self.ids.pageNum_input.text)
-        #    user_pNum = user_pNum / 10
-        #    self.ids.pageNum_input.text = str(user_pNum)
-        #
         pdf = PdfFileReader(open(getDocumentName(),'rb'))
         TotalPage = pdf.getNumPages()
-        print("ALL PAGE'S NUMBER-", TotalPage)
+        # print("ALL PAGE'S NUMBER-", TotalPage)
         PageInputValue = self.ids.pageNum_input.text
         if PageInputValue != '':
             pattern = '0123456789,-'  #zuwshuurugduh temdegtuud
@@ -202,15 +222,22 @@ class PrintScreen(Screen):
         print(self.ids.pageNum_input.text)
 
     def sliderFunc(self, value):
-        max_value = 30
+        max_value = 4
+        ConvertedImages = "/Users/macbook/Documents/python test/ScreenManager/ConvertedImage/Image"
         if self.ids.slider.range == [1, max_value]:
-            self.ids.slider.value += value
-            self.ids.slider_text.text = str(int(self.ids.slider.value))
+            if self.ids.slider.value + value <= max_value:
+                self.ids.slider.value += value
+                self.ids.slider_text.text = str(int(self.ids.slider.value))
+                self.ids.imageView.source = ConvertedImages + str(int(self.ids.slider.value)) + ".png"
         else:
             self.ids.slider.range = (1, max_value)
 
     def pageValue(self, selected_value):
-        print(selected_value)
+        global PageChooserValue
+        PageChooserValue = selected_value
+        if PageChooserValue == True:
+            self.ids.print_service.disabled = False
+        # print("All or Custom", PageChooserValue)
 
     def Copies_Num(self, value):
         copyNum = int(self.ids.copies_input.text)
@@ -220,6 +247,19 @@ class PrintScreen(Screen):
             copyNum = copyNum
         self.ids.copies_input.text = str(copyNum)
         print(self.ids.copies_input.text)
+
+    def ColorChoose(self, Selected_value):
+        if Selected_value is False:
+            global data_color
+            data_color = "-gray"
+            # print('SET UP IN GRAYSCALE MODE')
+        else:
+            data_color = "-color"
+            # print('SET UP IN COLOR MODE'
+
+    def pageNum_input_del(self):
+        self.ids.pageNum_input.text = self.ids.pageNum_input.text[:-1]
+
     pass
 
 class OnlineScreen(Screen):
@@ -232,7 +272,7 @@ class OnlineScreen(Screen):
         Request_Value = "asdfg12345"
         if (self.ids.input.text == Request_Value):
             self.ids.Error_comment.text = "Correct"
-            # self.manager.current =
+            self.parent.current = "printOpt"
         elif len(self.ids.input.text) < 10:
             self.ids.Error_comment.text = "Please enter your code"
         elif (self.ids.input.text != Request_Value and len(self.ids.input.text) == 10):
@@ -338,28 +378,11 @@ def printDev(pageNum_1, pageNum_2, counter, filename):
         counter += 1
     return counter
 
-global savePath_func
-
-def savePath_func(save_path):
-    if save_path != '0':
-        print(save_path)
-        file = open(UsrPathSaverTxtFile, "w+")
-        file.write(save_path)
-        file.close()
-        return save_path
-
-def SaveButtonChk(SaveData):
-    if SaveData != True:
-        file = open(UsrPathSaverTxtFile, "w+")
-        file.write('')
-        file.close()
 def Sound():
     sound = SoundLoader.load('click.mp3')
-    sound.play()
+    #sound.play()
 
-
-with io.open("main.kv", encoding='utf8') as f:
-    presentation = Builder.load_string(f.read())
+presentation = Builder.load_file("main.kv")
 
 if __name__ == '__main__':
 
