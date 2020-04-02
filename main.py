@@ -12,6 +12,12 @@ import os
 import io
 import subprocess
 import tempfile
+from kivy.clock                 import Clock
+from datetime                   import datetime
+from datetime                   import timedelta
+import kivy.uix.filechooser
+from kivy.uix.filechooser       import *
+from kivy.uix.carousel          import Carousel
 from subprocess                 import call
 from kivy.app                   import App
 from kivy.lang                  import Builder
@@ -23,12 +29,6 @@ from kivy.utils                 import platform as core_platform
 from kivy.uix.button            import ButtonBehavior
 from kivy.uix.image             import Image
 from kivy.core.audio            import SoundLoader
-from kivy.clock import Clock
-from datetime import datetime
-from datetime import timedelta
-import kivy.uix.filechooser
-from kivy.uix.filechooser import *
-from kivy.uix.carousel import Carousel
 from kivy.uix.slider            import Slider
 from kivy.graphics              import Rectangle, Color, RoundedRectangle, Ellipse
 from functools                  import partial
@@ -43,13 +43,8 @@ from kivy.uix.boxlayout         import BoxLayout
 from kivy.uix.floatlayout       import FloatLayout
 from pdf2image.pdf2image        import convert_from_path
 from kivy.input.motionevent     import MotionEvent
-_have_win32file     = False
-PageChooserValue    = True
-data_color          = "-color"
-data_pageNum        = 1
-save_value          = 0
-Online_CntNum       = 0
-Request_Value       = 0
+from kivy.loader                import Loader
+image = Loader.image('touchFinger.png')
 # with io.open("Online.kv", encoding='utf8') as f:
 #     Builder.load_string(f.read())
 # with io.open("Offline.kv", encoding='utf8') as f:
@@ -66,34 +61,36 @@ from PyPDF2 import PdfFileReader
 from pdf2image import convert_from_path
 platform = core_platform
 filesize_units = ('B', 'KB', 'MB', 'GB', 'TB')
-sys.path.insert(0, '/Users/macbook/Documents/python test/ScreenManager/docx2pdf-master2/docx2pdf/__init__.py')
-sys.path.insert(0, "/Users/macbook/python test/lib/python2.7/site-packages/kivy/uix/fileChooser.py")
 Window.clearcolor = (0.95,0.95,0.95,1)
 checkerVariable = ['.DS_Store']
+_have_win32file     = False
+PageChooserValue    = True
+data_color          = "-color"
+data_pageNum        = 1
+save_value          = 0
+Online_CntNum       = 0
+Request_Value       = 0
+pdf                 = 0
+TotalPage           = 0
+returnPage          = True
+import time
+from kivy.uix.image import AsyncImage
 class MainScreen(Screen):
     def soundMain(self):
         Sound()
-
-    def pointTouch(self):
-        if self.ids.touchLabel.opacity == 1:
-            self.ids.touchLabel.opacity = 0
-        else:
-            self.ids.touchLabel.opacity = 1
-    pass
-class ImageButton(ButtonBehavior, Image):
     pass
 class OfflineScreen(Screen):
     def refresh(self):
         self.ids.filechooser._update_files()
+
     def chkDev(self, Send_path):
         print(Send_path)
         Sound()
-        global save_path1, k
         flash_path = '/Users/macbook/Documents/python test/ScreenManager/FLASH'
         files = os.listdir(flash_path)
-        print("ohh" ,files)
         if files != checkerVariable:
             if Send_path != []:
+                UsrPathOb.setDocumentName(Send_path)
                 self.ids.WarningText.text = "DO YOU CONTINUE?"
                 self.ids.btn1.opacity = 1
                 self.ids.btn2.opacity = 1
@@ -109,7 +106,6 @@ class OfflineScreen(Screen):
             self.ids.WarningText.text = "PLEASE ENTER YOUR DEVICE!"
 
     def del1(self):
-        Sound()
         self.ids.WarningText.text = "PLEASE ENTER YOUR DEVICE"
         self.ids.btn1.opacity = 0
         self.ids.btn2.opacity = 0
@@ -117,12 +113,20 @@ class OfflineScreen(Screen):
         self.ids.btn2.disabled = True
         self.ids.opLbl_true.opacity = 0
         self.ids.opLbl_false.opacity = 0
+        self.ids.filechooser._update_files()
 
     def checkStr(self, Chkstr):
-        print(Chkstr)
         if Chkstr != []:
+            self.ids.btn1.opacity = 0
+            self.ids.btn2.opacity = 0
+            self.ids.btn1.disabled = True
+            self.ids.btn2.disabled = True
+            self.ids.opLbl_true.opacity = 0
+            self.ids.opLbl_false.opacity = 0
+            self.ids.WarningText.text = "PLEASE CHOOSE YOUR FILE!"
             DataString = str(Chkstr).split(".")
-            DataString = DataString[1].split("'")
+            DataString = DataString[-1].split("'")
+            print(DataString)
             if DataString[0] == 'pdf' or DataString[0] == 'PDF' or DataString[0] == 'DOC' or DataString[0] == 'DOCX' or \
                     DataString[0] == 'doc' or DataString[0] == 'docx' or \
                     DataString[0] == 'XLS' or DataString[0] == 'xls' or DataString[0] == 'TXT' or DataString[0] == 'txt':
@@ -131,27 +135,31 @@ class OfflineScreen(Screen):
             else:
                 self.ids.save.disabled = True
             print(DataString[0])
-    # def convertFile(self):
-        # f = open(UsrPathSaverTxtFile, "r")
-        # filePath_text = f.read()
-        # convert_path = filePath_text.split("'")
-        # checkFile = convert_path[1].split('.')
-        # if checkFile[1] == "docx" or checkFile[1] == "DOCX" or checkFile[1] == "doc" or checkFile[1] == "docx":
-        #     convert(convert_path)
-        #     convert(convert_path, "output.pdf")
-        #     convert("/Users/macbook/Documents/python test/doc2image")
+    def setConfigure(self):
+        global pdf, TotalPage
+        pdf = PdfFileReader(open(UsrPathOb.getDocumentName(), 'rb'))
+        TotalPage = pdf.getNumPages()
+        print(pdf)
+        print(pdf.getNumPages())
+        inputpath = r"C:/Users/7559/PycharmProjects/ScreenManager/outputA6.pdf"
+        outputpath = r"C:/Users/7559/PycharmProjects/ScreenManager/"
 
-        # print(convert_path[1])
-
+        # os.system('C:/Users/7559/Downloads/GHOSTSCRIPT/bin/gswin32c.exe -o outputA6.pdf -sDEVICE=pdfwrite -sPAPERSIZE=a4 -dFIXEDMEDIA -dDEVICEWIDTHPOINTS=595 -dDEVICEHEIGHTPOINTS=790 -dPDFFitPage -dCompatibilityLevel=1.3 -c 60000000 setvmthreshold -f' + ' ' + os.path.basename(
+        #         UsrPathOb.getDocumentName()))
+        # # result = pdf2jpg.convert_pdf2jpg(inputpath, outputpath, dpi = 80, pages="ALL")
+        # pages = convert_from_path(inputpath, 80)
+        # for i, page in enumerate(pages):
+        #     fname = "save_image/image" + str(i) + ".png"
+        #     page.save(fname, "PNG")
+        # self.parent.ids.printOpt.imageView.reload()
     pass
 #----------------------------------------------------PRINT PAGE---------------------------------------------
 class PrintScreen(Screen):
     kb_x = 0
     kb_y = 0
+    all_page = TotalPage
     def print_service(self):
-        global data_color, data_pageNum, PageChooserValue
-        pdf = PdfFileReader(open(getDocumentName(), 'rb'))
-        TotalPage = pdf.getNumPages()
+        global data_color, data_pageNum, PageChooserValue, pdf, TotalPage
         # -------------------------------PAGE NUMBER PROTECTION----------------------------------
         if PageChooserValue is False:
             data_pageNum = self.ids.pageNum_input.text
@@ -160,7 +168,7 @@ class PrintScreen(Screen):
             else:
                 data_pageNum = data_pageNum
         else:
-            pdf = PdfFileReader(open(getDocumentName(), 'rb'))
+            pdf = PdfFileReader(open(UsrPathOb.getDocumentName(), 'rb'))
             TotalPage = pdf.getNumPages()
             data_pageNum = '1' + '-' + str(TotalPage)
         #-------------------------------READ PDF FILE PAGES NUM----------------------------------
@@ -181,10 +189,8 @@ class PrintScreen(Screen):
 
     def pageNum(self):
         #------------------------TEXT INPUT LIMIT---------------------------
-        pdf = PdfFileReader(open(getDocumentName(),'rb'))
-        TotalPage = pdf.getNumPages()
-        # print("ALL PAGE'S NUMBER-", TotalPage)
         PageInputValue = self.ids.pageNum_input.text
+        print(PageInputValue)
         if PageInputValue != '':
             pattern = '0123456789,-'  #zuwshuurugduh temdegtuud
             StrCount = 0
@@ -222,19 +228,18 @@ class PrintScreen(Screen):
         print(self.ids.pageNum_input.text)
 
     def sliderFunc(self, value):
-        max_value = 4
+        global TotalPage
+        max_value = TotalPage
         ConvertedImages = "/Users/macbook/Documents/python test/ScreenManager/ConvertedImage/Image"
-        if self.ids.slider.range == [1, max_value]:
-            if self.ids.slider.value + value <= max_value:
-                self.ids.slider.value += value
-                self.ids.slider_text.text = str(int(self.ids.slider.value))
-                self.ids.imageView.source = ConvertedImages + str(int(self.ids.slider.value)) + ".png"
-        else:
-            self.ids.slider.range = (1, max_value)
+        if self.ids.slider.value + value <= max_value:
+            self.ids.slider.value += value
+            self.ids.slider_text.text = str(int(self.ids.slider.value))
+            self.ids.imageView.source = ConvertedImages + str(int(self.ids.slider.value)) + ".png"
 
     def pageValue(self, selected_value):
         global PageChooserValue
         PageChooserValue = selected_value
+
         if PageChooserValue == True:
             self.ids.print_service.disabled = False
         # print("All or Custom", PageChooserValue)
@@ -256,30 +261,40 @@ class PrintScreen(Screen):
         else:
             data_color = "-color"
             # print('SET UP IN COLOR MODE'
-
-    def pageNum_input_del(self):
-        self.ids.pageNum_input.text = self.ids.pageNum_input.text[:-1]
-
+    def KeyCorrect(self):
+        if self.ids.pageNum_input.text == '':
+            self.ids.pageNum_input.text = str(TotalPage)
+    def ReturnPageFunc(self):
+        global returnPage
+        if returnPage is False:
+            self.parent.transition.direction = 'left'
+            self.parent.current = "Online"
+            returnPage = True
+        else:
+            self.parent.transition.direction = 'right'
+            self.parent.current = "Offline"
+            UsrPathOb.setDocumentName('')
     pass
 
 class OnlineScreen(Screen):
     def register(self):
         # -------------------------------SEND REQUEST TO SERVER----------------------------------
-        global Request_Value
+        global Request_Value, returnPage
         Sound()
         print('Entered Number by User:', self.ids.input.text)
         # self.ids.Error_comment.text = "Please wait for a few second"
         Request_Value = "asdfg12345"
         if (self.ids.input.text == Request_Value):
-            self.ids.Error_comment.text = "Correct"
+            self.ids.Error_comment.text = ''
             self.parent.current = "printOpt"
+            self.clr_btn()
+            returnPage = False
         elif len(self.ids.input.text) < 10:
             self.ids.Error_comment.text = "Please enter your code"
         elif (self.ids.input.text != Request_Value and len(self.ids.input.text) == 10):
             self.ids.Error_comment.text = "Incorrect. Please check your code!"
         else:
             self.ids.Error_comment.text = " "
-
 
     def chkUserNum(self):
         global Online_CntNum
@@ -364,19 +379,37 @@ class ScreenManagement(ScreenManager):
 class textinp(Widget):
     pass
 
-def getDocumentName():
-    filename = 'ThePearl.PDF'
-    return filename
+class ImageButton(ButtonBehavior, Image):
+    pass
+
+
+class UserDocPath:
+    def __init__(self, filename=''):
+        self.filename = filename
+
+    # get
+    def getDocumentName(self):
+        return self.filename
+
+    # setter method
+    def setDocumentName(self, setfilename):
+        if setfilename != '':
+            path = str(setfilename)
+            path = path.split("'")
+            # print(str(path[1]))
+            self.filename = str(path[1])
+UsrPathOb = UserDocPath()
+
 #------------------------------------------FILE PRINTING FUNCTION---------------------------------
-def printDev(pageNum_1, pageNum_2, counter, filename):
-    save_dir = '/Users/macbook/Documents/python test/ScreenManager/save_image/'
-    images_from_path = convert_from_path(getDocumentName(), 150, first_page=pageNum_1, last_page=pageNum_2,
-                                         grayscale=data_color, size=None)
-    base_filename = os.path.splitext(os.path.basename(filename))[0]
-    for tmp, page in enumerate(images_from_path):
-        page.save(os.path.join(save_dir, base_filename + str(counter) + ".jpg"), 'JPEG')
-        counter += 1
-    return counter
+# def printDev(pageNum_1, pageNum_2, counter, filename):
+#     save_dir = '/Users/macbook/Documents/python test/ScreenManager/save_image/'
+#     images_from_path = convert_from_path(getDocumentName(), 150, first_page=pageNum_1, last_page=pageNum_2,
+#                                          grayscale=data_color, size=None)
+#     base_filename = os.path.splitext(os.path.basename(filename))[0]
+#     for tmp, page in enumerate(images_from_path):
+#         page.save(os.path.join(save_dir, base_filename + str(counter) + ".jpg"), 'JPEG')
+#         counter += 1
+#     return counter
 
 def Sound():
     sound = SoundLoader.load('click.mp3')

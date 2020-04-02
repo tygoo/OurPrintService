@@ -87,6 +87,7 @@
             on_press:
                 root.manager.transition.direction = 'left'
                 root.manager.current = "printOpt"
+                root.setConfigure()
 
         Label:
             id: opLbl_false
@@ -139,6 +140,7 @@
         Label:
             pos_hint: {'x': .225, 'y': .42}
             text: "ФАЙЛ СОНГОХ"
+            font_size: root.height*0.03
             color: 1,1,1,1
 
         FileChooserIconView:
@@ -200,5 +202,3 @@
             text: 'Та дараах өргөтгөлтэй файлуудыг сонгох боломжтой! \nӨргөтгөлүүд: (DOCX, PDF, XLS)'
             color: rgba("#eb5757")
             pos_hint: {'x': .3, 'y': 0.025}
-
-

@@ -10,6 +10,7 @@ ScreenManagement:
     Label:
         id: clock
     FloatLayout:
+        on_touch_move: root.pointTouch()
         Label:
             pos_hint: {'x': .175, 'y': 0.2}
             opacity:.8
@@ -28,12 +29,21 @@ ScreenManagement:
                 root.manager.transition.direction = 'right'
                 root.manager.current = "Online"
                 root.soundMain()
-
         Label:
             text: "ОНЛАЙН ГОРИМ"
             pos_hint: {'x': -.175, 'y': -.2}
             font_size: root.height*0.05
             color: rgba("#17574a")
+        Label:
+            id: touchLabel
+            opacity: .5
+            pos_hint: {'x': .31, 'y': .21}
+            canvas:
+                Rectangle:
+                    source: 'touchFinger.png'
+                    size: root.width*0.04,root.height*0.04
+                    pos: self.pos
+
     FloatLayout:
         Label:
             opacity: 1
@@ -58,3 +68,12 @@ ScreenManagement:
             pos_hint: {'x': .175, 'y': -.2}
             font_size: root.height*0.05
             color: rgba("#17574a")
+        Label:
+            id: touchLabel
+            opacity: .5
+            pos_hint: {'x': .66, 'y': .21}
+            canvas:
+                Rectangle:
+                    source: 'touchFinger.png'
+                    size: root.width*0.04,root.height*0.04
+                    pos: self.pos

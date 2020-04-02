@@ -41,6 +41,13 @@
     #-----------------------------------------BACK AND PRINT BUTTON------------------------------------
     FloatLayout:
         Label:
+            pos_hint: {'x': -.009, 'y': -0.011}
+            canvas:
+                Rectangle:
+                    source: 'shadow1.png'
+                    size: root.width*0.205,root.height*0.185
+                    pos: self.pos
+        Label:
             pos_hint: {'x': .02, 'y': 0.025}
             canvas:
                 Color:
@@ -52,10 +59,9 @@
         ButtonRound:
             id: offline_btn
             text: "Буцах"
-            pos_hint: {'x': .02, 'y': 0.025}
+            pos_hint: {'x': .02, 'y': 0.03}
             on_press:
-                root.manager.transition.direction = 'right'
-                root.manager.current = "Offline"
+                root.ReturnPageFunc()
                 pageNum_input.text = ''
                 copies_input.text = '1'
                 slider.value = 1
@@ -87,6 +93,13 @@
                 kb.disabled = True
                 kb_pos.opacity = 0
                 kb_pos.disabled = True
+        Label:
+            pos_hint: {'x': .795, 'y': -0.011}
+            canvas:
+                Rectangle:
+                    source: 'shadow1.png'
+                    size: root.width*0.205,root.height*0.185
+                    pos: self.pos
         Label:
             pos_hint: {'x': .825, 'y': 0.025}
             canvas:
@@ -396,7 +409,8 @@
                     source: "printDelBtn.png"
                     size_hint: 0.12, 0.75
                     pos_hint: {"x": 0.575, "y": 0.15}
-                    on_press: root.pageNum_input_del()
+                    on_press:
+                        pageNum_input.text = pageNum_input.text[:-1]
                 Label_kb:
                     pos_hint: {"x": 0.125, "y": 0.15}
                 Button_kb:
@@ -429,6 +443,7 @@
                     size_hint: 0.2, 0.25
                     pos_hint: {"x": 0.75, "y": 0.15}
                     on_press:
+                        root.KeyCorrect()
                         pageNum_input.disabled = True
                         pageNum_input.opacity = 1
                         lab_colorful.pos_hint = {'x': .475, 'y': .275}

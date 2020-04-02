@@ -82,7 +82,6 @@
             on_press:
                 root.register()
 
-
     FloatLayout:
         Label:
             pos_hint: {'x': 0.785, 'y': -0.005}
@@ -114,6 +113,12 @@
                 root.manager.current = "Main"
                 root.clr_btn()
                 root.btn_one_clk()
+                Error_comment.text = ''
+        Label:
+            id: Error_comment
+            color: rgba("#d63c3c")
+            font_size: root.height*0.05
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
     FloatLayout:
         Label_but:
             pos_hint: {'x': self.button_x,'y': self.button_y + 0.33}
@@ -380,8 +385,3 @@
                     source: 'printDelBtn.png'
                     size: root.width*0.07,root.height*0.08
                     pos: root.width*0.76,root.height*0.21
-        Label:
-            id: Error_comment
-            color: rgba("#d63c3c")
-            font_size: root.height*0.05
-            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
